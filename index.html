@@ -1244,12 +1244,13 @@ function projection(){
   const age=n(state.client.currentAge), ret=n(state.client.retirementAge), years=Math.max(0,Math.round(ret-age));
   const rate=Math.max(0,n(state.client.projectedReturn))/100;
   const ct=totals(state.current);
+  const proposedAnnual=totals(state.proposed).annual;
   const override=String(state.client.lumpSumOverride??"").trim();
   const lump=override===""?ct.surrender:n(override);
   let balance=0, rows=[];
   for(let y=1;y<=years;y++){
     const curr=premiumAtYear(state.current,y);
-    const prop=premiumAtYear(state.proposed,y);
+    const prop=proposedAnnual;
     const diff=curr-prop;
     const invested=diff+(y===1?lump:0);
     balance=(balance+invested)*(1+rate);
